@@ -54,5 +54,16 @@ spark.read.format("csv").load("data/test.txt").toDF("Success").show(20, False)
 
 print()
 
+print("STARTED=============")
 
+
+
+lis = [1 , 2 , 3 , 4]
+print(lis)
+
+
+rddin = sc.parallelize(lis)
+
+print("====RAW RDD LIST======")
+print(rddin.collect())
 
