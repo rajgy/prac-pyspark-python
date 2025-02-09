@@ -76,3 +76,8 @@ mulrdd = rddin.map(lambda x : x *10)
 
 print("======mulrdd RDD LIST=====")
 print(mulrdd.collect())
+
+filterRDD = rddin.filter(lambda x : x > 2)
+
+print("====FIlter RDD list====")
+print(filterRDD.collect())
