@@ -67,3 +67,12 @@ rddin = sc.parallelize(lis)
 print("====RAW RDD LIST======")
 print(rddin.collect())
 
+addrdd = rddin.map(lambda x : x +2)
+
+print("=====addrdd RDD list")
+print(addrdd.collect())
+
+mulrdd = rddin.map(lambda x : x *10)
+
+print("======mulrdd RDD LIST=====")
+print(mulrdd.collect())
