@@ -62,6 +62,3 @@ print(rddstr.collect())
 # flatMap() applies the split operation to each element and flattens the results into a single RDD
 flatdata = rddstr.flatMap(lambda x: x.split("~"))
 
-# Print the flattened data after splitting
-print("\n===== FLATTENED LIST ======")
-print(flatdata.collect())

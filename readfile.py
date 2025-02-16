@@ -47,37 +47,56 @@ sc = SparkContext(conf=conf)
 
 spark = SparkSession.builder.getOrCreate()
 
-spark.read.format("csv").load("data/test.txt").toDF("Success").show(20, False)
-
-
-##################🔴🔴🔴🔴🔴🔴 -> DONT TOUCH ABOVE CODE -- TYPE BELOW ####################################
-
-print()
+# spark.read.format("csv").load("data/test.txt").toDF("Success").show(20, False)
+#
+#
+# ##################🔴🔴🔴🔴🔴🔴 -> DONT TOUCH ABOVE CODE -- TYPE BELOW ####################################
+#
+# print()
+#
+# print("STARTED=============")
+#
+#
+#
+# lis = [1 , 2 , 3 , 4]
+# print(lis)
+#
+#
+# rddin = sc.parallelize(lis)
+#
+# print("====RAW RDD LIST======")
+# print(rddin.collect())
+#
+# addrdd = rddin.map(lambda x : x +2)
+#
+# print("=====addrdd RDD list")
+# print(addrdd.collect())
+#
+# mulrdd = rddin.map(lambda x : x *10)
+#
+# print("======mulrdd RDD LIST=====")
+# print(mulrdd.collect())
+#
+# filterRDD = rddin.filter(lambda x : x > 2)
+#
+# print("====FIlter RDD list====")
+# print(filterRDD.collect())
 
 print("STARTED=============")
 
-
-
 lis = [1 , 2 , 3 , 4]
 print(lis)
-
-
 rddin = sc.parallelize(lis)
 
-print("====RAW RDD LIST======")
+print("===== RAW RDD LIST=====")
 print(rddin.collect())
 
-addrdd = rddin.map(lambda x : x +2)
+addrdd = rddin.map( lambda x : x + 2 )
 
-print("=====addrdd RDD list")
+print("===== mulrdd RDD LIST=====")
 print(addrdd.collect())
 
-mulrdd = rddin.map(lambda x : x *10)
+mulrdd = rddin.map( lambda x : x *  10 )
 
-print("======mulrdd RDD LIST=====")
+print("===== mulrdd RDD LIST=====")
 print(mulrdd.collect())
-
-filterRDD = rddin.filter(lambda x : x > 2)
-
-print("====FIlter RDD list====")
-print(filterRDD.collect())
