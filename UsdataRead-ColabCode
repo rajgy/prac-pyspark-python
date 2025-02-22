@@ -1,0 +1,38 @@
+#🔴 colab code
+
+data = sc.textFile("usdata.csv")
+print()
+print("===== RAW DATA====")
+print(data.collect())     # print(data.collect())
+
+
+
+
+lendata = data.filter( lambda x : len(x) > 200 )
+print()
+print("===== lendata DATA====")
+print(lendata.collect())     # print(lendata.collect())
+
+
+
+
+flatdata = lendata.flatMap( lambda  x : x.split(","))
+print()
+print("===== flatdata DATA====")
+print(flatdata.collect())      # print(flatdata.collect())
+
+
+
+
+
+remdata = flatdata.map(lambda x : x.replace("-", ""))
+print()
+print("===== remdata DATA====")
+print(remdata.collect())         # print(remdata.collect())
+
+
+
+condata = remdata.map( lambda x : x + ",zeyo")
+print()
+print("===== condata DATA====")
+print(condata.collect())      # print(condata.collect()
