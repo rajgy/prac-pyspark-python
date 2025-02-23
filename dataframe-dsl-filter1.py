@@ -36,14 +36,39 @@ data = [
 df = spark.createDataFrame(data, ["id", "tdate", "amount", "category", "product", "spendby"])
 df.show()
 
+#Single filter
 sincol = df.filter("category='Exercise'")
 print("\n======SINGLE COL FILTER = category = 'Exercise'")
 sincol.show()
 
+#Multiple column filter using and operator
 multicol = df.filter("category = 'Exercise' and spendby = 'cash'")
 print("\n======Multi COL FILTER = category = 'Exercise' and spendby = 'cash'")
 multicol.show()
 
+#Multiple Column filter using or operator
 multicolor = df.filter("category = 'Exercise' or spendby = 'cash'")
 print("\n======Multi COL OR FILTER = category = 'Exercise' and spendby = 'cash'")
 multicolor.show()
+
+#Multiple Value Filter using in operator
+multivalue = df.filter("category in ('Exercise', 'Gymnastics')")
+print("\n======Multi VALUE FILTER = category = 'Exercise' and spendby = 'cash'")
+multivalue.show()
+
+
+#Filater usinf like operator
+likeFilter = df.filter("product like 'filter' ")
+print("\n======product like 'gymnastic'")
+likeFilter.show()
+
+#Filter using to find out the null value by using is operator
+nullfilter = df.filter("product is null")
+print("\n=====product is nul=====")
+nullfilter.show()
+
+
+#Filter is not null using is not operator
+notnullfilter = df.filter("product is not null")
+print("\n=====product is not nul=====")
+notnullfilter.show()
