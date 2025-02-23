@@ -72,3 +72,20 @@ nullfilter.show()
 notnullfilter = df.filter("product is not null")
 print("\n=====product is not nul=====")
 notnullfilter.show()
+
+
+#Single !=(not equal) filter filter
+notequalsincol = df.filter("category !='Exercise'")
+print("\n======SINGLE notequal COL FILTER = category = 'Exercise'")
+notequalsincol.show()
+
+#Multiple column filter using !=(not equal) , and filter operator
+notequalmulticol = df.filter("category != 'Exercise' and spendby = 'cash'")
+print("\n======Multi notequal COL FILTER = category = 'Exercise' and spendby = 'cash'")
+notequalmulticol.show()
+
+
+#Multiple Value Filter using not and in operator
+notequalmultivalue = df.filter("category not in ('Exercise', 'Gymnastics')")
+print("\n======Multi notequal VALUE FILTER = category = 'Exercise' and spendby = 'cash'")
+notequalmultivalue.show()
