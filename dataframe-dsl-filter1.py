@@ -58,7 +58,7 @@ multivalue.show()
 
 
 #Filater usinf like operator
-likeFilter = df.filter("product like 'filter' ")
+likeFilter = df.filter("product  like   '%Gymnastics%'  ")
 print("\n======product like 'gymnastic'")
 likeFilter.show()
 
