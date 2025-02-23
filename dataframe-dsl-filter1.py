@@ -43,3 +43,7 @@ sincol.show()
 multicol = df.filter("category = 'Exercise' and spendby = 'cash'")
 print("\n======Multi COL FILTER = category = 'Exercise' and spendby = 'cash'")
 multicol.show()
+
+multicolor = df.filter("category = 'Exercise' or spendby = 'cash'")
+print("\n======Multi COL OR FILTER = category = 'Exercise' and spendby = 'cash'")
+multicolor.show()
