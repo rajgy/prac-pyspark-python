@@ -27,7 +27,13 @@ spark = SparkSession.builder \
 print("STARTED=============")
 
 
-# Create a List of Tuples
+# -----------------------------------------------
+# Step 1: Create a List of Tuples (Sample Data)
+# -----------------------------------------------
+
+# Each tuple contains two values:
+# First value = Department Name (e.g., 'DEPT1')
+# Second value = Salary (e.g., 1000)
 data = [
     ("DEPT1", 1000),
     ("DEPT1", 700),
@@ -35,16 +41,54 @@ data = [
     ("DEPT2", 400),
     ("DEPT2", 200),
     ("DEPT3", 500),
-    ("DEPT3", 200)]
+    ("DEPT3", 200)
+]
 
-# Create columns as per List to tuples requires
+# -----------------------------------------------
+# Step 2: Define Column Names for DataFrame
+# -----------------------------------------------
+
+# List of column names corresponding to each element in the tuple
 columns = ["dept", "salary"]
 
-# Creating List of Tuples into Dataframe for further data processing
-df = spark.createDataFrame(data,columns)
+# -----------------------------------------------
+# Step 3: Create DataFrame from List of Tuples
+# -----------------------------------------------
+
+# Convert the list of tuples into a PySpark DataFrame
+# This DataFrame will have two columns: 'dept' and 'salary'
+df = spark.createDataFrame(data, columns)
+
+# Show the content of the DataFrame in a table format
 df.show()
 
-#==STEP 1== CREATE THE WINDOW
+
+
+# -----------------------------------------------
+# Step 4: Create a Window Specification
+# -----------------------------------------------
+
+# Window functions allow you to perform operations across a group of rows
+# that are related to the current row (like ranking, row number, cumulative sum).
+
+# partitionBy("dept") means:
+# - Group the data by 'dept' column.
+# - Each department's data will be considered as one group for window functions.
+
+# orderBy(col("salary").desc()) means:
+# - Within each 'dept' group, order the rows by 'salary' in descending order.
+# - So highest salary comes first in each department group.
+
+# Together, this Window specification allows us to perform operations
+# (like ranking, row number, etc.) within each department and ordered by salary.
+
+# Example operations that can use this window: row_number(), rank(), dense_rank(), sum(), avg(), etc.
+
+# Import Window and col for use
+from pyspark.sql.window import Window
+from pyspark.sql.functions import col
+
+# Define the window
 deptwindow = Window.partitionBy("dept").orderBy(col("salary").desc())
 
 #==STEP 2===APPLYING WITH WINDOW ON DATAFRAME TO DENSE RANK
