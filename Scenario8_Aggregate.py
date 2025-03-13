@@ -47,5 +47,5 @@ df.show()
 print("======== SUM PER EACH NAME=========")
 
 # Performing agg function to sum the amount according to name while amount receive by same name from different cites
-aggdf1 = df.groupBy("name").agg(sum("amount").alias("total_amount"))
+aggdf1 = df.groupBy("name").agg(sum("amount").alias("total_amount"),count("amount").alias("cnt"))
 aggdf1.show()
