@@ -109,7 +109,7 @@ procdf =(
 print("\n=====procdf DF======\n")
 procdf.show(5)
 
-
+procdf.write.format("csv").mode("overwrite").save(r"D:\BigData\bigdata\bath42\Spark\pyspark\pyspark\processdata")
 # Processing or Transformation data using Aggregate i.e. agg
 aggdf = procdf.groupBy("category").agg(sum("amount").alias('total'))
 print("\n=======aggdf of procdf======\n")
@@ -128,7 +128,7 @@ cust = spark.createDataFrame(data4, ["id","name"]).coalesce(1)
 print("\n=======custumer dataframe=====\n")
 cust.show()
 
-#Creatinf the list of tuples of product
+#Creating the list of tuples of product
 data3 = [
     (1, "mouse"),
     (3, "mobile"),
@@ -198,3 +198,5 @@ filrank = drank.filter("drank=2")
 filrank.show()
 
 filrank.drop("drank").show()
+
+

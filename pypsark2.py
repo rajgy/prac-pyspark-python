@@ -6,7 +6,7 @@ import sys
 python_path = sys.executable
 os.environ['PYSPARK_PYTHON'] = python_path
 os.environ['HADOOP_HOME'] = "hadoop"
-os.environ['JAVA_HOME'] = r'C:\Users\ghimi\.jdks\corretto-1.8.0_442'
+os.environ['JAVA_HOME'] = r'C:\Users\cogni\.jdks\corretto-1.8.0_442'
 
 # Configure Spark
 conf = SparkConf().setAppName("pyspark").setMaster("local[*]")
