@@ -32,11 +32,11 @@ print("STARTED=============")
 jsondata = """
 
 {
-    "id": 1,                       # This is like a special number for the story.
-    "trainer": "sai",              # This is the name of the trainer (like a teacher).
-    "zeyoAddress": {               # This is a smaller box inside the big box, called "zeyoAddress".
-        "permanentAddress": "Hyderabad",  # This is where the trainer lives all the time.
-        "temporaryAddress": "chennai"     # This is where the trainer stays sometimes.
+    "id": 1,                       
+    "trainer": "sai",              
+    "zeyoAddress": {               
+        "permanentAddress": "Hyderabad",  
+        "temporaryAddress": "chennai"     
     }
 }
 
@@ -61,10 +61,10 @@ df.printSchema()
 # We want to take out the information from these smaller boxes and put them in the main table.
 # This is called "flattening" the story.
 flatdata = df.select(
-    "id",                          # We take the special number.
-    "trainer",                     # We take the trainer's name.
-    "zeyoAddress.permanentAddress",  # We take the permanent address from the smaller box.
-    "zeyoAddress.temporaryAddress"   # We take the temporary address from the smaller box.
+    "id",
+    "trainer",
+    "zeyoAddress.permanentAddress",
+    "zeyoAddress.temporaryAddress"
 )
 
 # Now, we ask the machine to show us the new, simpler table.
