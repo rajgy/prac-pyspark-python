@@ -2,8 +2,6 @@
 from pyspark import SparkConf, SparkContext  # Spark configuration and context
 from pyspark.sql import SparkSession         # Spark session for DataFrame operations
 import os                                    # For setting environment variables
-import laspy
-import pandas as pd
 import sys                                   # For accessing system-specific parameters
 from pyspark.sql.functions import *          # For using SQL functions like `col`, `filter`, etc.
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType
@@ -28,34 +26,60 @@ spark = SparkSession.builder \
 # Print a message to indicate the program has started
 print("STARTED=============")
 
-# Reading the usdata.csv file from the local storge of laptop
 
-df = spark.read.format("csv").option("header","true").load(r'D:\BigData\bigdata\bath42\Spark\pyspark\pyspark\usdata.csv')
+
+
+# 🔴WITHCOLUMN IMAGE EXAMPLE
+
+
+data="""
+
+{
+	"id": "000",
+	"type": "donut",
+	"name": "Non cream",
+	"image": {
+		"url": "images/0001.jpg",
+		"width": 200,
+		"height": 200
+	},
+	"thumbnail": {
+		"url": "images/thumbnails/0001.jpg",
+		"width": 33,
+		"height": 33
+	}
+}
+
+
+"""
+
+rdd = sc.parallelize([data])
+
+df = spark.read.option("multiline","true").json(rdd)
+
+
 df.show()
 
-
-#Write the usdata.csv file into usdata.json format in same local storage
-df.write.format("json").mode("append").save(r'D:\BigData\writeData\jsonusdata')
-# df.write.format("json").mode("append").save(r'D:\BigData\writeData\jsonusdata1')
-# df.write.format("json").mode("error").save(r'D:\BigData\writeData\jsonusdata2')
- #
-
-# Reading parquet file format
-parquet =  spark.read.format("parquet").load("file:///D:/BigData/bigdata/bath42/Spark/pyspark/pyspark/file5.parquet")
-parquet.show()
-
-#Write the parquet format to CSV
-parquet.write.format("CSV").mode("overwrite").save("file:///D:/BigData/writeData/CSVFILE")
-
-# # Reading XML file format
-# xml = spark.read.format("com.databricks.spark.xml").option("rowTag", "row").load("file:///D:/BigData/bigdata/bath42/Spark/pyspark/pyspark/large-dataset.xml")
-# xml.show()
-#
-# # Write the XML format to CSV
-# xml.write.format("csv").mode("overwrite").save("file:///D:/BigData/writeData/XMLFILE")
+df.printSchema()
 
 
-print("\n======Converted and SAVED THE CSV FORMAT DATA INTO JSON FORMAT====\n")
 
-# #Read the las data
-# las = laspy.read("file:///D:/Nitro-5(9841)/Feb_2025_Entry/KAHEP/LiDAR/013.las")
+
+withflat = (
+
+    df.withColumn( "i_height" , expr("image.height") )
+    .withColumn( "i_url" , expr("image.url") )
+    .withColumn( "i_width" , expr("image.width") )
+    .withColumn( "t_height" , expr("thumbnail.height") )
+    .withColumn( "t_url" , expr("thumbnail.url") )
+    .withColumn( "t_width" , expr("thumbnail.width") )
+    .drop("image","thumbnail")
+
+
+
+
+)
+
+withflat.show()
+
+withflat.printSchema()
