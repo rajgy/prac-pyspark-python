@@ -13,4 +13,5 @@
 #*****Note: printing schema of data is very important****for ex. df.printSchema()
 #-----1. Multiline    Solution to handle is: true
 #-----2. Struct       Solution of handle is: . (dot)
-#-----3.
+#-----3. Array        Solution of handle is: explode
+

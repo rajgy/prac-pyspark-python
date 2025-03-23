@@ -8,7 +8,7 @@ import sys  # For accessing system-specific parameters
 python_path = sys.executable  # Get the current Python interpreter path
 os.environ['PYSPARK_PYTHON'] = python_path  # Tell PySpark to use this Python interpreter
 os.environ['HADOOP_HOME'] = "hadoop"  # Set Hadoop home directory
-os.environ['JAVA_HOME'] = r'C:\Users\ghimi\.jdks\corretto-1.8.0_442'  # Set Java home directory
+os.environ['JAVA_HOME'] = r'C:\Users\cogni\.jdks\corretto-1.8.0_442'  # Set Java home directory
 
 # Step 2: Configure Spark
 conf = SparkConf().setAppName("pyspark").setMaster("local[*]")
@@ -41,7 +41,7 @@ columns = namedtuple('columns',['id','tdate','amt','category','product','mode'])
 
 # Step 4 =====================
 
-schemardd = mapsplit.map(lambda x : columns(x[0],x[1],x[2],x[3],x[4],x[5]))
+schemardd = mapsplit.map(lambda x : columns(x[0], x[1], x[2], x[3], x[4]))
 
 # Step 5 =====================
 

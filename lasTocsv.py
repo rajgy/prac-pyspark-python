@@ -1,4 +1,6 @@
 # Import necessary libraries
+from statistics import stdev
+
 from pyspark import SparkConf, SparkContext  # Spark configuration and context
 from pyspark.sql import SparkSession         # Spark session for DataFrame operations
 import os                                    # For setting environment variables
@@ -71,24 +73,37 @@ las_df = spark.createDataFrame(las_data, schema=schema)
 
 # Step 4: Display the DataFrame in the console
 print("\nDisplaying LAS Data:\n")
-las_df.show(5)
+las_df.show(3)
 print("Count the total point:",las_df.count())
 
 # filter by classification
 
 ground_df = las_df.filter(col("classification")==2)
-ground_df.show(30)
+ground_df.show(3)
 print("Count the point of ground:",ground_df.count())
 
 
 # filter the ground data according to intensity value
 intensity_df = ground_df.filter("Intensity >= 30000 and Intensity <= 45000")
-intensity_df.show(10)
+intensity_df.show(3)
 print("\n Count the filter Intensity Point:", intensity_df.count())
+
+
+# find the average(mean) and standard deviation of the elevation (z) VALUES
+stats = intensity_df.select(mean("Z").alias("mean"), stddev("Z").alias("stddev")).collect()
+#stats.show()
+mean_z = stats[0]["mean"]
+stddev_z = stats[0]["stddev"]
+
+z_score_threshold = 3  # Points beyond 3 standard deviations are outliers
+filtered_intensity_df = intensity_df.filter(abs((col("Z")-mean_z)/stddev_z) < z_score_threshold)
+
+print("Before filtering:", intensity_df.count())
+print("After filtering:", filtered_intensity_df.count())
 
 # filter the ground data according to intensity value
 lessintensity_df = ground_df.filter("Intensity <= 30000")
-lessintensity_df.show(10)
+lessintensity_df.show(3)
 print("\n Count the filter Less Intensity Point:", lessintensity_df.count())
 
 
@@ -101,50 +116,7 @@ area = x_range * y_range
 point_density = las_df.count() / area
 print(f"Point_Density in Given Area: {area}, PPM: {point_density}")
 
-# # Extract X, Y, Z coordinates from the LiDAR file
-# x = las_file.x
-# y = las_file.y
-# z = las_file.z
-#
-# # Convert float64 values to Python native float
-# x = [float(val) for val in x]
-# y = [float(val) for val in y]
-# z = [float(val) for val in z]
-#
-# # Convert LiDAR data to a list of tuples
-# lidar_data = list(zip(x, y, z))
-#
-# # Define the schema for the DataFrame
-# schema = StructType([
-#     StructField("X", FloatType(), nullable=False),
-#     StructField("Y", FloatType(), nullable=False),
-#     StructField("Z", FloatType(), nullable=False)
-# ])
-#
-# # Create a PySpark DataFrame with the defined schema
-# lidar_df = spark.createDataFrame(lidar_data, schema=schema)
-#
-# # Show the first few rows of the LiDAR DataFrame
-# print("Displaying LiDAR Data:")
-# lidar_df.show(5)
-#
-# num_points = lidar_df.count()
-# print(f"Total number of points in the DataFrame: {num_points}")
-#
-# # Step 1: Filter elevation data for 1-meter intervals
-# # Assuming `lidar_df` is the DataFrame containing X, Y, Z coordinates
-# # Round the Z values to the nearest integer
-#
-# df = lidar_df.withColumn("Z", round(col("Z")))
-# df.show(5)
 
-# # Step 2: Filter the data to include only 1-meter intervals
-# # Group by the rounded Z values and show the filtered data
-# filtered_df =df.groupBy("Z_rounded").count().orderBy("Z_rounded")
-#
-# # Show the filtered DataFrame in the console
-# print("Filtered LiDAR Data (1-Meter Intervals):")
-# filtered_df.show()
 
 
 # # Step 4: Save the LiDAR DataFrame to a CSV file (optional)
